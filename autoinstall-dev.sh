@@ -5,6 +5,17 @@
 # A link to the main Easymap github repository
 git_address='https://github.com/MicolLab/easymap.git'
 
+# Default access port: 8100, can be changed adding it as an argument to the script.
+if ! [ $1 ]; then
+	port=8100
+
+elif [ "$1" -ge 8100 ] && [ "$1" -le 8200 ]; then
+	port=$1
+
+else
+	echo 'Please choose a port number between 8100 and 8200.'
+	exit
+fi
 
 # First the user selects the Operative System used with a  simple menu. Then the script installs different dependencies in each case and clones 
 # easymap from the main repository. Finally, it runs the install.sh file inside the Easymap folder for a default installation using port 8100
@@ -37,7 +48,7 @@ do
 		git clone $git_address 
 		chmod -R 755 easymap
 		cd easymap
-		sudo ./install.sh server 
+		./install.sh server $port
 	fi
 
         if [ $dis == 'Ubuntu_16' ] || [ $dis == 'Ubuntu_14' ]
@@ -47,7 +58,7 @@ do
 		git clone $git_address
 		chmod -R 755 easymap
 		cd easymap
-		sudo ./install.sh server 
+		./install.sh server $port
         fi
 
         if [ $dis == 'Linux_AMI' ]
@@ -60,7 +71,7 @@ do
 		chmod -R 755 easymap
 		cd easymap
 		./install.sh cli
-		nohup sudo -u $SUDO_USER `./src/Python-2.7.12/.localpython/bin/python -m CGIHTTPServer 8100`
+		nohup sudo -u $SUDO_USER `./src/Python-2.7.12/.localpython/bin/python -m CGIHTTPServer $port`
 
         fi
 
@@ -74,7 +85,7 @@ do
 		git clone $git_address
 		chmod -R 755 easymap
 		cd easymap
-		./install.sh server
+		./install.sh server $port
         fi
 
 	if [ $dis == 'OS_X(Yosemite)' ]
@@ -85,7 +96,7 @@ do
 		git clone $git_address
 		chmod -R 755 easymap
 		cd easymap
-		./install.sh server
+		./install.sh server $port
 	fi
 	break
 done
