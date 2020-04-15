@@ -1,5 +1,10 @@
 import argparse
 
+#USAGE: For default read splitting in half only one argument is needed: 
+#	python cleave.py -in <input-file>
+
+
+
 #We create the input and output objects
 parser = argparse.ArgumentParser()
 parser.add_argument('-in', action="store", dest = 'input')
@@ -12,7 +17,7 @@ i = 1
 f1 = open(str(args.input), 'r')
 
 #Output files
-basename =str(args.output_1)
+basename =str(args.input).split('.fastq')[0]
 forward=basename+'_1.fq'
 reverse=basename+'_2.fq'
 
